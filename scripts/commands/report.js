@@ -1,217 +1,58 @@
+/** I am doing this coding with a lot of difficulty, please don't post it yourself¯\_(ツ)_/¯ **/
 module.exports.config = {
-  name: "report", // command name.
-  version: "1.0.0", // command version.
-  permission: 0, 
-  credits: "nayan",
-  description: "example",
-  prefix: false,
-  category: "example", 
-  usages: "example", 
-  cooldowns: 5, 
-  dependencies: {}
-};
-
-module.exports.handleReply = async function({ api, args, event, handleReply, Users }) {
-  try {
-    var name = (await Users.getData(event.senderID)).name;
-    var s = [];
-    var l = [];
-    const fs = require('fs-extra');
-    const { join } = require('path');
-    const axios = require('axios');
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    var charactersLength = characters.length || 20;
-    if (event.attachments.length != 0) {
-      for (var p of event.attachments) {
-        var result = '';
-        for (var i = 0; i < charactersLength; i++) result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        if (p.type == 'photo') {
-          var e = 'jpg';
-        }
-        if (p.type == 'video') {
-          var e = 'mp4';
-        }
-        if (p.type == 'audio') {
-          var e = 'mp3';
-        }
-        if (p.type == 'animated_image') {
-          var e = 'gif';
-        }
-        var o = join(__dirname, 'cache', `${result}.${e}`);
-        let m = (await axios.get(encodeURI(p.url), { responseType: "arraybuffer" })).data;
-        fs.writeFileSync(o, Buffer.from(m, "utf-8"));
-        s.push(o);
-        l.push(fs.createReadStream(o));
-      }
-    };
-    switch (handleReply.type) {
-      case "reply": {
-        var idad = global.config.ADMINBOT;
-        if (s.length == 0) {
-          for (let ad of idad) {
-            api.sendMessage({
-              body: "[📲] Feedback from " + name + " :\n[💬] Content: " + (event.body) || "There's no answer", mentions: [{
-                id: event.senderID,
-                tag: name
-              }]
-            }, ad, (e, data) => global.client.handleReply.push({
-              name: this.config.name,
-              messageID: data.messageID,
-              messID: event.messageID,
-              author: event.senderID,
-              id: event.threadID,
-              type: "calladmin"
-            }));
-          }
-        }
-        else {
-          for (let ad of idad) {
-            api.sendMessage({
-              body: "[📲] Feedback from " + name + ":\n" + (event.body) || "only files that don't have a reply 🧡", attachment: l, mentions: [{
-                id: event.senderID,
-                tag: name
-              }]
-            }, ad, (e, data) => global.client.handleReply.push({
-              name: this.config.name,
-              messageID: data.messageID,
-              messID: event.messageID,
-              author: event.senderID,
-              id: event.threadID,
-              type: "calladmin"
-            }));
-            for (var b of s) {
-              fs.unlinkSync(b);
-            }
-          }
-        }
-        break;
-      }
-      case "calladmin": {
-        if (s.length == 0) {
-          api.sendMessage({ body: `[📌] Feedback from admin ${name} to you:\n\n[💬] Content: ${(event.body) || "no reply 🌸 "}\n\n» Reply to this message if you want to continue sending admin reports`, mentions: [{ tag: name, id: event.senderID }] }, handleReply.id, (e, data) => global.client.handleReply.push({
-            name: this.config.name,
-            author: event.senderID,
-            messageID: data.messageID,
-            type: "reply"
-          }), handleReply.messID);
-        }
-        else {
-          api.sendMessage({ body: `[📌] Feedback from admin ${name} to you:\n\n[💬] Content: ${(event.body) || "only files with no reply 🌸 "}\n[💌] Admin files sent to you\n\n» Reply to this message if you want to continue sending admin reports`, attachment: l, mentions: [{ tag: name, id: event.senderID }] }, handleReply.id, (e, data) => global.client.handleReply.push({
-            name: this.config.name,
-            author: event.senderID,
-            messageID: data.messageID,
-            type: "reply"
-          }), handleReply.messID);
-          for (var b of s) {
-            fs.unlinkSync(b);
-          }
-        }
-        break;
-      }
-    }
-  }
-  catch (ex) {
-    console.log(ex);
+  name: "status", 
+  version: "1.0.0", 
+  permission: 0,
+  credits: "farhan",
+  description: "Random sad video",
+  prefix: true,
+  category: "Media", 
+  usages: "video", 
+  cooldowns: 5,
+  dependencies: {
+    "request":"",
+    "fs-extra":"",
+    "axios":""
   }
 };
 
-module.exports.run = async function({ api, event, Threads, args, Users }) {
-  try {
-    var s = [];
-    var l = [];
-    const fs = require('fs-extra');
-    const { join } = require('path');
-    const axios = require('axios');
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    var charactersLength = characters.length || 20;
-    if (event.messageReply) {
-    if (event.messageReply.attachments.length != 0) {
-      for (var p of event.messageReply.attachments) {
-        var result = '';
-        for (var i = 0; i < charactersLength; i++) result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        if (p.type == 'photo') {
-          var e = 'jpg';
-        }
-        if (p.type == 'video') {
-          var e = 'mp4';
-        }
-        if (p.type == 'audio') {
-          var e = 'mp3';
-        }
-        if (p.type == 'animated_image') {
-          var e = 'gif';
-        }
-        var o = join(__dirname, 'cache', `${result}.${e}`);
-        let m = (await axios.get(encodeURI(p.url), { responseType: "arraybuffer" })).data;
-        fs.writeFileSync(o, Buffer.from(m, "utf-8"));
-        s.push(o);
-        l.push(fs.createReadStream(o));
-      }
-    }
-  }
-    if (!args[0] && event.messageReply.attachments.length == 0)
-      return api.sendMessage(`You haven't entered what to report 📋`,
-        event.threadID,
-        event.messageID
-      );
+module.exports.run = async({api,event,args,client,Users,Threads,__GLOBAL,Currencies}) => {
+const axios = global.nodemodule["axios"];
+const request = global.nodemodule["request"];
+const fs = global.nodemodule["fs-extra"];
+   var hi = ["--𝐒𝐭𝐚𝐭𝐮𝐬 𝐯𝐢𝐝𝐞𝐨💕🌸"];
+  var know = hi[Math.floor(Math.random() * hi.length)];
+  var link = [
 
-    var name = (await Users.getData(event.senderID)).name;
-    var idbox = event.threadID;
-
-    var datathread = (await Threads.getData(event.threadID)).threadInfo;
-    var namethread = datathread.threadName;
-    var uid = event.senderID;
-
-    const moment = require("moment-timezone");
-    var gio = moment.tz("Asia/Dhaka").format("HH:mm:ss D/MM/YYYY");
-    var soad = global.config.ADMINBOT.length;
-    api.sendMessage(`[🤖] - Bot has just successfully sent your message to ${soad} Admin 🍄 \n[⏰] - Time: ${gio}`,
-      event.threadID,
-      () => {
-        var idad = global.config.ADMINBOT;
-        if (s.length == 0) {
-          for (let ad of idad) {
-            api.sendMessage({ body: `📱[ CALL ADMIN ]📱 \n\n\n[👤] Report from: ${name}\n[❗] ID User ${uid}\n[🗣️] BOX: ${namethread}\n[🔰] ID BOX: ${idbox}\n\n[💌] Inbox: ${args.join(
-              " "
-            )}\n[⏰] Time: ${gio}`, mentions: [{ id: event.senderID, tag: name }] },
-              ad, (error, info) =>
-              global.client.handleReply.push({
-                name: this.config.name,
-                messageID: info.messageID,
-                author: event.senderID,
-                messID: event.messageID,
-                id: idbox,
-                type: "calladmin"
-              })
-            );
-          }
-        }
-        else {
-          for (let ad of idad) {
-            api.sendMessage({
-              body: `📱 ===[CALL ADMIN]====📱\n\n\n[👤] Report from: ${name}\n[❗] ID User ${uid}\n[ 👧 👩 👧 👨 ] BOX: ${namethread}\n[🔰] ID BOX: ${idbox}\n\n[💌] Inbox: ${(args.join(
-                " "
-              )) || "only files that do not have report ❤️ content"}\n[⏰] Time: ${gio}\n[📌] Attach a file`, attachment: l, mentions: [{ id: event.senderID, tag: name }]
-            },
-              ad, (error, info) =>
-              global.client.handleReply.push({
-                name: this.config.name,
-                messageID: info.messageID,
-                author: event.senderID,
-                messID: event.messageID,
-                id: idbox,
-                type: "calladmin"
-              })
-            );
-          }
-          for (var b of s) {
-            fs.unlinkSync(b);
-          }
-        }
-      }
-      , event.messageID);
-  }
-  catch (ex) {
-    console.log(ex);
-  }
-};
+  "https://drive.google.com/uc?id=17Siy3m5zeLkokRoCyWwczk6zu526JUPF",
+    "https://drive.google.com/uc?id=174zQRjLL0SaJVFD5liEuKm5aR6HtSe_o",
+    "https://drive.google.com/uc?id=17hYY34PphiJHdW1A_E9l_-OhDPT0eI_a",
+    "https://drive.google.com/uc?id=17g-DLmU_8h0ikcPzILeckxLlc3wVTZu9",
+    "https://drive.google.com/uc?id=18Bin28m7IAWa1ivis7_4AXCA_kAeoykB",
+    "https://drive.google.com/uc?id=18eW1EQOhSM7fKnyY4o7M6nYW0mipCLkE",
+    "https://drive.google.com/uc?id=1786skurI-bLyrKOzDil0Rhyi6jCm1W37",
+    "https://drive.google.com/uc?id=19AXDVa7Ztz7VFcihLL1SUk18mvi9VZod",
+    "https://drive.google.com/uc?id=17pKu6KBXey7ZUMLsEWBDOPsIy7Hi1HEQ",
+    "https://drive.google.com/uc?id=192xwqhizP2L3iHCXm8K_4Jkmpd_HVG7Q",
+    "https://drive.google.com/uc?id=19BzZcoVnDa-tbyFtUKjCjKQWp1ulkLJy",
+    "https://drive.google.com/uc?id=19-lbnaP6WFGeIsqJqViZFuY5ESVXCF_Q",
+    "https://drive.google.com/uc?id=177dfSpPPnxF3OhKfACaIBBh7WjZvaRuz",
+    "https://drive.google.com/uc?id=17lpJIGRlXeXAID5VV4CC4jP_hpByMfs2",
+    "https://drive.google.com/uc?id=18zNKiD8rMf_fGQpMSCA6Vs76yecmWoIN",
+    "https://drive.google.com/uc?id=197tNZmre0q50GNW01DSneC3gLw6tGwF6",
+    "https://drive.google.com/uc?id=17ni-ipbRL29juQxiOye2RWbITlrxaAE1",
+    "https://drive.google.com/uc?id=18hqgF39ty2beCZ1CsFbsmGnUoIP-BQZU",
+   "https://drive.google.com/uc?id=191ByqbJVq3EKg5Ex89iHlL0UEyuP9cEe",
+    "https://drive.google.com/uc?id=18ZXuuFJkpeqW8-P5RUQgQK8g4Ers4-R7",
+    "https://drive.google.com/uc?id=18E7nT22wCgLF3XWb3mpKJzkCixpJ-UB4",
+    "https://drive.google.com/uc?id=18eq15C9pQ7_zgZDVCsfzfR2k-eEEAR3e",
+    "https://drive.google.com/uc?id=193y_bb2bceQ1pJjbyIvVY8xJxSJ0rckc",
+    "https://drive.google.com/uc?id=18xLT6ftX6U2Y7I6IDh-oG7IZyBs9oh3A",
+   "https://drive.google.com/uc?i18PuQ1yxwN2fysn3SpQsV15NwdWKaW028",
+    "https://drive.google.com/uc?id=18y5UvhotB5XoeKt5x8gE7DXsAI9BiQj3",
+    "https://drive.google.com/uc?id=18wW3LDewAdJi2gDtEXQZDCKD-f6lZjJo",
+    "https://drive.google.com/uc?id=193SEBLlHPDXrzdM10HZ3vptPfblD3NMw",
+];
+     var callback = () => api.sendMessage({body:`「 ${know} 」`,attachment: fs.createReadStream(__dirname + "/cache/15.mp4")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/15.mp4"));    
+      return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname+"/cache/15.mp4")).on("close",() => callback());
+   };

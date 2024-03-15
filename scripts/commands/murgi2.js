@@ -12,7 +12,7 @@ module.exports.config = {
 
 module.exports.run = async function({ api, args, Users, event}) {
     var mention = Object.keys(event.mentions)[0];
-    if(!mention) return api.sendMessage("আপনি কাকে চুদতে চান এমন 1 জনকে @ম্যানশন করতে হবে", event.threadID);
+    if(!mention) return api.sendMessage("পরিস্থিতি যেমনই হোক চুদা মিস নাই🥵", event.threadID);
  let name =  event.mentions[mention];
     var arraytag = [];
         arraytag.push({id: mention, tag: name});
@@ -49,7 +49,7 @@ setTimeout(() => {a("~ আমার জারজ শন্তান🤖")} , 930
 setTimeout(() => {a({body: "Welcome মাগির পোলা 🥰।" + " " + name, mentions: arraytag})}, 99000);
 setTimeout(() => {a({body: "তর কচি বোন এর পম পম😍.." + " " + name, mentions: arraytag})}, 105000);
 setTimeout(() => {a({body: "ব্যাস্যার পোলা কথা শুন তর আম্মু রে চুদি গামছা পেচিয়ে🐰" + " " + name, mentions: arraytag})}, 111000);
-setTimeout(() => {a({body: "Hi নয়ন এর জারজ মাগির পোলা  💔!" + " " + name, mentions: arraytag})}, 114000);
+setTimeout(() => {a({body: "Hi রাকিব এর জারজ মাগির পোলা  💔!" + " " + name, mentions: arraytag})}, 114000);
 setTimeout(() => {a({body: "২০ টাকা এ পতিতা মাগির পোলা " + " " + name, mentions: arraytag})}, 120000);
 setTimeout(() => {a({body: "depression থেকেও তর মাইরে চু*** দি 🤬 " + " " + name, mentions: arraytag})}, 126000);
 setTimeout(() => {a({body: "বস্তির ছেলে অনলাইনের কিং" + " " + name, mentions: arraytag})}, 132000);

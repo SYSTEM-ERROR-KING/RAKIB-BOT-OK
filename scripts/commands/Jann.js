@@ -1,28 +1,35 @@
+/**
+* @author ProCoderMew
+* @warn Do not edit code or edit credits
+*/
+
 module.exports.config = {
-  name: "c2", 
-  version: "1.0.0", 
-  permission: 0,
-  credits: "Nayan",
-  description: "",
-  prefix: true,
-  category: "c2", 
-  usages: "[tag]",
-  cooldowns: 5,
-  dependencies: {
+    name: "kiss",
+    version: "2.0.0",
+    permssion: 0,
+    credits: "Mohammad Nayan",
+    description: "",
+    prefix: true,
+    category: "kiss",
+    usages: "[tag]",
+    cooldowns: 5,
+    dependencies: {
         "axios": "",
         "fs-extra": "",
         "path": "",
         "jimp": ""
     }
 };
+
 module.exports.onLoad = async() => {
     const { resolve } = global.nodemodule["path"];
     const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];
     const { downloadFile } = global.utils;
-    const dirMaterial = __dirname + `/cache/canvas/`;
-    const path = resolve(__dirname, 'cache/canvas', 'seophi.png');
-    if (!existsSync(dirMaterial + "canvas")) mkdirSync(dirMaterial, { recursive: true });
-    if (!existsSync(path)) await downloadFile("https://i.imgur.com/4xVl8bg.jpeg", path);
+    const dirMaterial = __dirname + `/cache/`;
+    const path = resolve(__dirname, 'cache', 'hon.png');
+    if (!existsSync(dirMaterial + "")) mkdirSync(dirMaterial, { recursive: true });
+    if (!existsSync(path)) await downloadFile("https://i.imgur.com/BtSlsSS.jpg", path);
+
 }
 
 async function makeImage({ one, two }) {
@@ -30,10 +37,10 @@ async function makeImage({ one, two }) {
     const path = global.nodemodule["path"];
     const axios = global.nodemodule["axios"]; 
     const jimp = global.nodemodule["jimp"];
-    const __root = path.resolve(__dirname, "cache", "canvas");
+    const __root = path.resolve(__dirname, "cache");
 
-    let batgiam_img = await jimp.read(__root + "/seophi.png");
-    let pathImg = __root + `/batman${one}_${two}.png`;
+    let hon_img = await jimp.read(__root + "/hon.png");
+    let pathImg = __root + `/hon_${one}_${two}.png`;
     let avatarOne = __root + `/avt_${one}.png`;
     let avatarTwo = __root + `/avt_${two}.png`;
     
@@ -45,9 +52,9 @@ async function makeImage({ one, two }) {
     
     let circleOne = await jimp.read(await circle(avatarOne));
     let circleTwo = await jimp.read(await circle(avatarTwo));
-    batgiam_img.resize(1024, 712).composite(circleOne.resize(200, 200), 527, 141).composite(circleTwo.resize(200, 200), 389, 407);
+    hon_img.resize(700, 440).composite(circleOne.resize(200, 200), 390, 23).composite(circleTwo.resize(180, 180), 140, 80);
     
-    let raw = await batgiam_img.getBufferAsync("image/png");
+    let raw = await hon_img.getBufferAsync("image/png");
     
     fs.writeFileSync(pathImg, raw);
     fs.unlinkSync(avatarOne);
@@ -62,19 +69,18 @@ async function circle(image) {
     return await image.getBufferAsync("image/png");
 }
 
-module.exports.run = async function ({ event, api, args }) {
+module.exports.run = async function ({ event, api, args, Currencies }) { 
     const fs = global.nodemodule["fs-extra"];
+    const ae = ["💚তোমাকে ভালোবাসি❤","💛তোমাকে ভালোবাসি💜"];
+    const hc = Math.floor(Math.random() * 101) + 101;
+    const rd = Math.floor(Math.random() * 10) + 1;
     const { threadID, messageID, senderID } = event;
-    var mention = Object.keys(event.mentions)[0]
-    let tag = event.mentions[mention].replace("@", "");
-    if (!mention) return api.sendMessage("Vui lòng tag 1 người", threadID, messageID);
-    else {
-        var one = senderID, two = mention;
-        return makeImage({ one, two }).then(path => api.sendMessage({ body: "অনেক সুন্দর জুটি 💏 ",
-            mentions: [{
-          tag: tag,
-          id: mention
-        }],
-     attachment: fs.createReadStream(path) }, threadID, () => fs.unlinkSync(path), messageID));
-    }
+    const mention = Object.keys(event.mentions);
+    var one = senderID, two = mention[0];
+  await Currencies.increaseMoney(event.senderID, parseInt(hc*rd));
+  
+  if (!two) return api.sendMessage("Please tag 1 person", threadID, messageID);
+  else {
+        return makeImage({ one, two }).then(path => api.sendMessage({ body: `${ae[Math.floor(Math.random() * ae.length)]}\nচুম্মাহ চুম্মি তো করলা এখন আমার বস.রাকিব এর কমিশন টাহ তো দাও..!!`, attachment: fs.createReadStream(path)}, threadID, () => fs.unlinkSync(path), messageID));
+  }
 }

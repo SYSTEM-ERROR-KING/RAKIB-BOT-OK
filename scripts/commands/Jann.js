@@ -1,12 +1,12 @@
 module.exports.config = {
-  name: "Jan1", 
+  name: "c2", 
   version: "1.0.0", 
   permission: 0,
   credits: "Nayan",
   description: "",
   prefix: true,
-  category: "Jan", 
-  usages: "Jan @", 
+  category: "c2", 
+  usages: "c2 @", 
   cooldowns: 5,
   dependencies: {
         "axios": "",

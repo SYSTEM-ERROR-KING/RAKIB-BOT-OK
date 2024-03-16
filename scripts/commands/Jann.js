@@ -15,7 +15,6 @@ module.exports.config = {
         "jimp": ""
     }
 };
-
 module.exports.onLoad = async() => {
     const { resolve } = global.nodemodule["path"];
     const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];

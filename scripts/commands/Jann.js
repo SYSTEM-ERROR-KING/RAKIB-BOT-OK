@@ -6,7 +6,7 @@ module.exports.config = {
   description: "",
   prefix: true,
   category: "c2", 
-  usages: "c2 @", 
+  usages: "[tag]",
   cooldowns: 5,
   dependencies: {
         "axios": "",

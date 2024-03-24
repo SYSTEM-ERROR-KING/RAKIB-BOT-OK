@@ -1,13 +1,13 @@
-var main = "100025013732141";
+: 1,
+  credits: "Nayan",
+  description: "",
+  category: "general", 
+  prefix: tvar main = "100025013732141";
 
 module.exports.config = {
   name: "resend",
   version: "2.0.0",
-  permssion: 1,
-  credits: "Nayan",
-  description: "",
-  category: "general", 
-  prefix: true,
+  permssionrue,
   usages: "resend",
   cooldowns: 0,
   hide:true,
